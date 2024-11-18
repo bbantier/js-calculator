@@ -17,3 +17,22 @@ function multiply (firstNum,secondNum) {
 function divide (firstNum, secondNum) {
   return firstNum / secondNum;
 }
+
+function operate (op, firstNum, secondNum) {
+  switch(op) {
+    case "+":
+      return add(firstNum, secondNum);
+      break;
+    case "-":
+      return subtract(firstNum, secondNum);
+      break;
+    case "x":
+      return multiply(firstNum, secondNum);
+      break;
+    case "/":
+      return divide(firstNum, secondNum);
+      break;
+    default:
+      return;
+  }
+}
