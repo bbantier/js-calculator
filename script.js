@@ -1,3 +1,5 @@
+const display = document.querySelector("#display");
+const number = document.querySelectorAll(".button");
 let firstNumber = 0;
 let secondNumber = 0;
 let operator = "";
