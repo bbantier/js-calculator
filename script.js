@@ -82,30 +82,38 @@ opButtons.forEach((button) => {
       firstNumber = Number(display.textContent);
     } else {
       secondNumber = Number(display.textContent);
-      updateResult();
+      result = operate(operator, firstNumber, secondNumber);
       updateDisplay(result);
       firstNumber = result;
     }
 
+    secondNumber = 0;
     operator = button.textContent;
     isNewNumber = true;
   });
 });
 
 equalButton.addEventListener("click", () => {
-  secondNumber = Number(display.textContent);
-  result = operate(operator, firstNumber, secondNumber);
+  if (secondNumber === 0) {
+    secondNumber = Number(display.textContent);
+    result = operate(operator, firstNumber, secondNumber);
+  }
   isNewNumber = true;
   updateDisplay(result);
+  clearValues();
 });
 
 clearButton.addEventListener("click", () => {
   clearDisplay();
-  firstNumber = 0;
-  secondNumber = 0;
-  operator = "";
+  clearValues();
 });
 
 function clearDisplay() {
   display.textContent = "0";
+}
+
+function clearValues() {
+  firstNumber = 0;
+  secondNumber = 0;
+  operator = "";
 }
