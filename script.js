@@ -1,4 +1,6 @@
+const MAX_DISPLAY = 999999999;
 const display = document.querySelector("#display");
+const opDisplay = document.querySelector("#op-display");
 const numButtons = document.querySelectorAll(".number");
 const decButton = document.querySelector("#dec");
 const opButtons = document.querySelectorAll(".operator");
@@ -9,7 +11,7 @@ let firstNumber = 0;
 let secondNumber = 0;
 let operator = "";
 let result = 0;
-let isNewNumber = false;
+let isNewNumber = true;
 
 function add(firstNum, secondNum) {
   return firstNum + secondNum;
@@ -46,17 +48,17 @@ function operate(op, firstNum, secondNum) {
   }
 }
 
-function updateResult() {
-  result = operate(operator, firstNumber, secondNumber);
-}
-
 function updateDisplay(input) {
   const currentContent = display.textContent;
+  if (input > MAX_DISPLAY) {
+    display.textContent = "TOO BIG";
+    return;
+  }
+
   const cleanInput =
-    input.toString().length > 10
-      ? Math.round(input * 10 ** 9) / 10 ** 9
-      : input;
-  if (currentContent === "0" || isNewNumber) {
+    input.toString().length > 9 ? input.toString().substring(0, 9) : input;
+
+  if (isNewNumber) {
     display.textContent = cleanInput;
     isNewNumber = false;
   } else {
@@ -67,7 +69,10 @@ function updateDisplay(input) {
 numButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const valueOfButton = button.textContent;
-    if (display.textContent.includes(".") && button.textContent === ".") {
+    if (
+      (display.textContent.includes(".") && button.textContent === ".") ||
+      display.textContent.length === 9
+    ) {
       return;
     }
     updateDisplay(valueOfButton);
@@ -89,11 +94,16 @@ opButtons.forEach((button) => {
 
     secondNumber = 0;
     operator = button.textContent;
+    opDisplay.textContent = operator;
     isNewNumber = true;
   });
 });
 
 equalButton.addEventListener("click", () => {
+  if (operator === "") {
+    return;
+  }
+
   if (secondNumber === 0) {
     secondNumber = Number(display.textContent);
     result = operate(operator, firstNumber, secondNumber);
@@ -116,4 +126,6 @@ function clearValues() {
   firstNumber = 0;
   secondNumber = 0;
   operator = "";
+  opDisplay.textContent = "";
+  isNewNumber = true;
 }

@@ -1,10 +1,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
 @font-face {
-  font-family: 'Digital';
-  src: url('fonts/DS-DIGI.TTF'), format('truetype') format('ttf');
+  font-family: "Digital";
+  src: url("fonts/DS-DIGI.TTF"), format("truetype") format("ttf");
   font-weight: normal;
   font-style: normal;
+}
+
+root {
+  --calculator-bg-color: #3F3F3F;
+  --display-bg-color: #D7E4E4;
+  --clear-bg-color: red;
+  --numkeys-bg-color: black;
+  --opkeys-bg-color: #696A6E;
+  --display-fonts: "Digital", sans-serif;
+  --numkeys-fonts: "Oswald", sans-serif;
 }
 
 *,
@@ -15,34 +25,37 @@
   box-sizing: border-box;
 }
 
-body {
-  height: 100vh;
+body,
+#calculator,
+.row,
+.row-wrapper,
+.column-wrapper {
   display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-#calculator, .row, .row-wrapper, .column-wrapper {
-  display: flex;
+body {
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
 }
 
 #calculator {
   flex-flow: column wrap;
   gap: 4px;
-  background-color: #3F3F3F;
+  background-color: #3f3f3f;
   padding: 10px;
   border-radius: 15px;
 }
 
 #display {
   height: 35px;
-  width: 152px;
+  width: 135px;
   padding: 0 5px;
-  background-color: #D7E4E4;
-  border-radius: 5px;
+  background-color: #d7e4e4;
+  border-radius: 0 5px 5px 0;
   margin-bottom: 15px;
   line-height: 35px;
-  font-family: 'Digital', sans-serif;
+  font-family: "Digital", sans-serif;
   font-size: 30px;
   text-align: right;
 }
@@ -66,14 +79,19 @@ body {
 #clear {
   width: 113px;
   background-color: red;
+  font-family: "Tahoma", sans-serif;
+  font-size: 1em;
 }
 
 .number {
   background-color: black;
 }
 
-.operator, #equal {
+.operator,
+#equal {
   background-color: #696a6e;
+  font-family: "Tahoma", sans-serif;
+  font-size: 1em;
 }
 
 .row-wrapper {
@@ -87,4 +105,20 @@ body {
 
 .column-wrapper {
   gap: 4px;
+}
+
+#display-wrapper {
+  display: flex;
+  width: 152 px;
+}
+
+#op-display {
+  font-family: "Tahoma", sans-serif;
+  padding: 3px;
+  width: 17px;
+  height: 35px;
+  line-height: 30px;
+  font-size: 20px;
+  background-color: #d7e4e4;
+  border-radius: 5px 0 0 5px;
 }
