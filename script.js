@@ -9,6 +9,7 @@ let firstNumber = 0;
 let secondNumber = 0;
 let operator = "";
 let result = 0;
+let isNewNumber = false;
 
 function add(firstNum, secondNum) {
   return firstNum + secondNum;
@@ -45,14 +46,19 @@ function operate(op, firstNum, secondNum) {
   }
 }
 
+function updateResult() {
+  result = operate(operator, firstNumber, secondNumber);
+}
+
 function updateDisplay(input) {
   const currentContent = display.textContent;
   const cleanInput =
     input.toString().length > 10
       ? Math.round(input * 10 ** 9) / 10 ** 9
       : input;
-  if (currentContent === "0" || secondNumber !== 0) {
+  if (currentContent === "0" || isNewNumber) {
     display.textContent = cleanInput;
+    isNewNumber = false;
   } else {
     display.textContent += cleanInput;
   }
@@ -64,28 +70,32 @@ numButtons.forEach((button) => {
     if (display.textContent.includes(".") && button.textContent === ".") {
       return;
     }
-    if (firstNumber !== 0) {
-      clearDisplay();
-    }
     updateDisplay(valueOfButton);
   });
 });
 
 opButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    if (firstNumber !== 0) {
+    isNewNumber = true;
+
+    if (firstNumber === 0) {
+      firstNumber = Number(display.textContent);
+    } else {
       secondNumber = Number(display.textContent);
-      result = operate(operator, firstNumber, secondNumber);
+      updateResult();
       updateDisplay(result);
+      firstNumber = result;
     }
+
     operator = button.textContent;
-    firstNumber = Number(display.textContent);
+    isNewNumber = true;
   });
 });
 
 equalButton.addEventListener("click", () => {
   secondNumber = Number(display.textContent);
   result = operate(operator, firstNumber, secondNumber);
+  isNewNumber = true;
   updateDisplay(result);
 });
 
