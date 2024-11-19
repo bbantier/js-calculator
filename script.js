@@ -1,5 +1,6 @@
 const display = document.querySelector("#display");
 const numButtons = document.querySelectorAll(".number");
+const decButton = document.querySelector("#dec");
 const opButtons = document.querySelectorAll(".operator");
 const clearButton = document.querySelector("#clear");
 const equalButton = document.querySelector("#equal");
@@ -7,6 +8,7 @@ const equalButton = document.querySelector("#equal");
 let firstNumber = 0;
 let secondNumber = 0;
 let operator = "";
+let result = 0;
 
 function add(firstNum, secondNum) {
   return firstNum + secondNum;
@@ -45,38 +47,47 @@ function operate(op, firstNum, secondNum) {
 
 function updateDisplay(input) {
   const currentContent = display.textContent;
-  if (currentContent === "0") {
-    display.textContent = input;
+  const cleanInput =
+    input.toString().length > 10
+      ? Math.round(input * 10 ** 9) / 10 ** 9
+      : input;
+  if (currentContent === "0" || secondNumber !== 0) {
+    display.textContent = cleanInput;
   } else {
-    display.textContent += input;
+    display.textContent += cleanInput;
   }
 }
 
 numButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const valueOfButton = button.textContent;
+    if (display.textContent.includes(".") && button.textContent === ".") {
+      return;
+    }
+    if (firstNumber !== 0) {
+      clearDisplay();
+    }
     updateDisplay(valueOfButton);
   });
 });
 
 opButtons.forEach((button) => {
   button.addEventListener("click", () => {
+    if (firstNumber !== 0) {
+      secondNumber = Number(display.textContent);
+      result = operate(operator, firstNumber, secondNumber);
+      updateDisplay(result);
+    }
     operator = button.textContent;
     firstNumber = Number(display.textContent);
-    clearDisplay();
   });
 });
 
 equalButton.addEventListener("click", () => {
   secondNumber = Number(display.textContent);
-  const result = operate(operator, firstNumber, secondNumber);
-  clearDisplay();
+  result = operate(operator, firstNumber, secondNumber);
   updateDisplay(result);
 });
-
-function clearDisplay() {
-  display.textContent = "0";
-}
 
 clearButton.addEventListener("click", () => {
   clearDisplay();
@@ -84,3 +95,7 @@ clearButton.addEventListener("click", () => {
   secondNumber = 0;
   operator = "";
 });
+
+function clearDisplay() {
+  display.textContent = "0";
+}
