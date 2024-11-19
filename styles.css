@@ -7,14 +7,15 @@
   font-style: normal;
 }
 
-root {
-  --calculator-bg-color: #3F3F3F;
-  --display-bg-color: #D7E4E4;
+:root {
+  --calculator-bg-color: #3f3f3f;
+  --display-bg-color: #d7e4e4;
   --clear-bg-color: red;
   --numkeys-bg-color: black;
-  --opkeys-bg-color: #696A6E;
+  --opkeys-bg-color: #696a6e;
   --display-fonts: "Digital", sans-serif;
   --numkeys-fonts: "Oswald", sans-serif;
+  --generic-fonts: "Tahoma", sans-serif;
 }
 
 *,
@@ -25,24 +26,24 @@ root {
   box-sizing: border-box;
 }
 
-body,
-#calculator,
-.row,
-.row-wrapper,
-.column-wrapper {
-  display: flex;
-}
-
 body {
   height: 100vh;
   justify-content: center;
   align-items: center;
 }
 
+body,
+#calculator,
+.row,
+.row-wrapper,
+.column-wrapper,
+#display-wrapper {
+  display: flex;
+}
+
 #calculator {
   flex-flow: column wrap;
-  gap: 4px;
-  background-color: #3f3f3f;
+  background-color: var(--calculator-bg-color);
   padding: 10px;
   border-radius: 15px;
 }
@@ -51,16 +52,19 @@ body {
   height: 35px;
   width: 135px;
   padding: 0 5px;
-  background-color: #d7e4e4;
+  background-color: var(--display-bg-color);
   border-radius: 0 5px 5px 0;
   margin-bottom: 15px;
   line-height: 35px;
-  font-family: "Digital", sans-serif;
+  font-family: var(--display-fonts);
   font-size: 30px;
   text-align: right;
 }
 
-.row {
+#calculator,
+.row,
+.row-wrapper,
+.column-wrapper {
   gap: 4px;
 }
 
@@ -68,8 +72,7 @@ body {
   width: 35px;
   height: 35px;
   text-align: center;
-  font-family: "Oswald", sans-serif;
-  font-size: 1.3em;
+  font-family: var(--numkeys-fonts);
   color: white;
   padding: 2px 10px;
   border-radius: 5px;
@@ -78,47 +81,37 @@ body {
 
 #clear {
   width: 113px;
-  background-color: red;
-  font-family: "Tahoma", sans-serif;
-  font-size: 1em;
+  background-color: var(--clear-bg-color);
+  font-family: var(--generic-fonts);
 }
 
 .number {
-  background-color: black;
+  background-color: var(--numkeys-bg-color);
 }
 
 .operator,
 #equal {
-  background-color: #696a6e;
-  font-family: "Tahoma", sans-serif;
-  font-size: 1em;
+  background-color: var(--opkeys-bg-color);
+  font-family: var(--generic-fonts);
 }
 
 .row-wrapper {
   flex-direction: column;
-  gap: 4px;
 }
 
 #add {
   height: 74px;
 }
 
-.column-wrapper {
-  gap: 4px;
-}
-
 #display-wrapper {
-  display: flex;
   width: 152 px;
 }
 
 #op-display {
-  font-family: "Tahoma", sans-serif;
-  padding: 3px;
+  font-family: var(--generic-fonts);
   width: 17px;
   height: 35px;
-  line-height: 30px;
-  font-size: 20px;
-  background-color: #d7e4e4;
+  padding: 5px 3px;
+  background-color: var(--display-bg-color);
   border-radius: 5px 0 0 5px;
 }
