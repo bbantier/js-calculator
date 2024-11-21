@@ -101,6 +101,17 @@ opButtons.forEach((button) => {
     opDisplay.textContent = operator;
     isNewNumber = true;
   });
+  document.addEventListener("keydown", (event) => {
+    const operatorKeyCodes = {
+      "+": "Slash",
+      "-": "Equal",
+      x: "BracketRight",
+      "/": "Period",
+    };
+    if (event.code.includes(operatorKeyCodes[button.textContent])) {
+      button.dispatchEvent(new Event("click"));
+    }
+  });
 });
 
 equalButton.addEventListener("click", () => {
@@ -135,18 +146,25 @@ function clearValues() {
 
 function erase() {
   const currentContent = display.textContent;
-  display.textContent =
-    currentContent.length === 1
-      ? 0
-      : currentContent.substring(0, currentContent.length - 1);
+  if (currentContent.length === 1) {
+    display.textContent = 0;
+    isNewNumber = true;
+  } else {
+    display.textContent = currentContent.substring(
+      0,
+      currentContent.length - 1
+    );
+  }
 }
 
 backspaceButton.addEventListener("click", () => erase());
 
-document.addEventListener("keydown", (e) => {
-  // If keycode is "Digit + num", trigger click event on corresponding numkey
-  const numRegex = /[0-9]/;
-  const opRegex = /[("Add"|"Subtract"|"Multiply"|"Divide")]/;
-  const isNumKey = !e.code.match(numRegex) ? 0 : 1;
-  const isOpKey = !e.code.match(opRegex) ? 0 : 1;
+document.addEventListener("keydown", (event) => {
+  if (event.code.includes("Escape")) {
+    clearButton.dispatchEvent(new Event("click"));
+  } else if (event.code.includes("Backspace")) {
+    backspaceButton.dispatchEvent(new Event("click"));
+  } else if (event.code.includes("Enter")) {
+    equalButton.dispatchEvent(new Event("click"));
+  }
 });
