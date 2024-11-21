@@ -80,7 +80,7 @@ body,
 }
 
 #clear {
-  width: 113px;
+  width: 76px;
   background-color: var(--clear-bg-color);
   font-family: var(--generic-fonts);
 }
@@ -90,6 +90,7 @@ body,
 }
 
 .operator,
+#backspace,
 #equal {
   background-color: var(--opkeys-bg-color);
   font-family: var(--generic-fonts);

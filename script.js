@@ -6,6 +6,7 @@ const decButton = document.querySelector("#dec");
 const opButtons = document.querySelectorAll(".operator");
 const clearButton = document.querySelector("#clear");
 const equalButton = document.querySelector("#equal");
+const backspaceButton = document.querySelector("#backspace");
 
 let firstNumber = 0;
 let secondNumber = 0;
@@ -51,7 +52,7 @@ function operate(op, firstNum, secondNum) {
 function updateDisplay(input) {
   const currentContent = display.textContent;
   if (input > MAX_DISPLAY) {
-    display.textContent = "TOO BIG";
+    display.textContent = "ERROR";
     return;
   }
 
@@ -77,13 +78,17 @@ numButtons.forEach((button) => {
     }
     updateDisplay(valueOfButton);
   });
+  document.addEventListener("keydown", (event) => {
+    if (event.code.includes(button.textContent)) {
+      button.dispatchEvent(new Event("click"));
+    }
+  });
 });
 
 opButtons.forEach((button) => {
   button.addEventListener("click", () => {
     isNewNumber = true;
-
-    if (firstNumber === 0) {
+    if (!firstNumber) {
       firstNumber = Number(display.textContent);
     } else {
       secondNumber = Number(display.textContent);
@@ -91,7 +96,6 @@ opButtons.forEach((button) => {
       updateDisplay(result);
       firstNumber = result;
     }
-
     secondNumber = 0;
     operator = button.textContent;
     opDisplay.textContent = operator;
@@ -100,11 +104,10 @@ opButtons.forEach((button) => {
 });
 
 equalButton.addEventListener("click", () => {
-  if (operator === "") {
+  if (!operator) {
     return;
   }
-
-  if (secondNumber === 0) {
+  if (!secondNumber) {
     secondNumber = Number(display.textContent);
     result = operate(operator, firstNumber, secondNumber);
   }
@@ -129,3 +132,21 @@ function clearValues() {
   opDisplay.textContent = "";
   isNewNumber = true;
 }
+
+function erase() {
+  const currentContent = display.textContent;
+  display.textContent =
+    currentContent.length === 1
+      ? 0
+      : currentContent.substring(0, currentContent.length - 1);
+}
+
+backspaceButton.addEventListener("click", () => erase());
+
+document.addEventListener("keydown", (e) => {
+  // If keycode is "Digit + num", trigger click event on corresponding numkey
+  const numRegex = /[0-9]/;
+  const opRegex = /[("Add"|"Subtract"|"Multiply"|"Divide")]/;
+  const isNumKey = !e.code.match(numRegex) ? 0 : 1;
+  const isOpKey = !e.code.match(opRegex) ? 0 : 1;
+});
